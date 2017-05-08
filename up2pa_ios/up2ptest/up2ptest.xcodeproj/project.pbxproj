@@ -1,0 +1,531 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		525E3AA819B4AC6F00B3EC04 /* ulink_test.c in Sources */ = {isa = PBXBuildFile; fileRef = 525E3AA719B4AC6F00B3EC04 /* ulink_test.c */; };
+		525E3AAF19B4AC9D00B3EC04 /* aes.c in Sources */ = {isa = PBXBuildFile; fileRef = 525E3AA919B4AC9D00B3EC04 /* aes.c */; };
+		525E3AB019B4AC9D00B3EC04 /* ulink.c in Sources */ = {isa = PBXBuildFile; fileRef = 525E3AAB19B4AC9D00B3EC04 /* ulink.c */; };
+		525E3AB119B4AC9D00B3EC04 /* up2p_crypt.c in Sources */ = {isa = PBXBuildFile; fileRef = 525E3AAD19B4AC9D00B3EC04 /* up2p_crypt.c */; };
+		52A1776A19939C78000223F2 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 52A1776919939C78000223F2 /* Foundation.framework */; };
+		52A1776C19939C78000223F2 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 52A1776B19939C78000223F2 /* CoreGraphics.framework */; };
+		52A1776E19939C78000223F2 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 52A1776D19939C78000223F2 /* UIKit.framework */; };
+		52A1777419939C78000223F2 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 52A1777219939C78000223F2 /* InfoPlist.strings */; };
+		52A1777619939C78000223F2 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 52A1777519939C78000223F2 /* main.m */; };
+		52A1777A19939C78000223F2 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 52A1777919939C78000223F2 /* AppDelegate.m */; };
+		52A1777D19939C78000223F2 /* Main_iPhone.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 52A1777B19939C78000223F2 /* Main_iPhone.storyboard */; };
+		52A1778019939C78000223F2 /* Main_iPad.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 52A1777E19939C78000223F2 /* Main_iPad.storyboard */; };
+		52A1778319939C78000223F2 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 52A1778219939C78000223F2 /* ViewController.m */; };
+		52A1778519939C78000223F2 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 52A1778419939C78000223F2 /* Images.xcassets */; };
+		52A1778C19939C78000223F2 /* XCTest.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 52A1778B19939C78000223F2 /* XCTest.framework */; };
+		52A1778D19939C78000223F2 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 52A1776919939C78000223F2 /* Foundation.framework */; };
+		52A1778E19939C78000223F2 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 52A1776D19939C78000223F2 /* UIKit.framework */; };
+		52A1779619939C78000223F2 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 52A1779419939C78000223F2 /* InfoPlist.strings */; };
+		52A1779819939C78000223F2 /* up2ptestTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 52A1779719939C78000223F2 /* up2ptestTests.m */; };
+		52A177D61993A7DE000223F2 /* up2pa.c in Sources */ = {isa = PBXBuildFile; fileRef = 52A177D51993A7DE000223F2 /* up2pa.c */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		52A1778F19939C78000223F2 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 52A1775E19939C78000223F2 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 52A1776519939C78000223F2;
+			remoteInfo = up2ptest;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXFileReference section */
+		525E3AA719B4AC6F00B3EC04 /* ulink_test.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = ulink_test.c; path = ../../../ulink_test.c; sourceTree = "<group>"; };
+		525E3AA919B4AC9D00B3EC04 /* aes.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = aes.c; path = ../../../aes.c; sourceTree = "<group>"; };
+		525E3AAA19B4AC9D00B3EC04 /* aes.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = aes.h; path = ../../../aes.h; sourceTree = "<group>"; };
+		525E3AAB19B4AC9D00B3EC04 /* ulink.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = ulink.c; path = ../../../ulink.c; sourceTree = "<group>"; };
+		525E3AAC19B4AC9D00B3EC04 /* ulink.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ulink.h; path = ../../../ulink.h; sourceTree = "<group>"; };
+		525E3AAD19B4AC9D00B3EC04 /* up2p_crypt.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = up2p_crypt.c; path = ../../../up2p_crypt.c; sourceTree = "<group>"; };
+		525E3AAE19B4AC9D00B3EC04 /* up2p_crypt.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = up2p_crypt.h; path = ../../../up2p_crypt.h; sourceTree = "<group>"; };
+		52A1776619939C78000223F2 /* up2ptest.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = up2ptest.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		52A1776919939C78000223F2 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
+		52A1776B19939C78000223F2 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
+		52A1776D19939C78000223F2 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
+		52A1777119939C78000223F2 /* up2ptest-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "up2ptest-Info.plist"; sourceTree = "<group>"; };
+		52A1777319939C78000223F2 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		52A1777519939C78000223F2 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
+		52A1777719939C78000223F2 /* up2ptest-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "up2ptest-Prefix.pch"; sourceTree = "<group>"; };
+		52A1777819939C78000223F2 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
+		52A1777919939C78000223F2 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
+		52A1777C19939C78000223F2 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main_iPhone.storyboard; sourceTree = "<group>"; };
+		52A1777F19939C78000223F2 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main_iPad.storyboard; sourceTree = "<group>"; };
+		52A1778119939C78000223F2 /* ViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ViewController.h; sourceTree = "<group>"; };
+		52A1778219939C78000223F2 /* ViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ViewController.m; sourceTree = "<group>"; };
+		52A1778419939C78000223F2 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
+		52A1778A19939C78000223F2 /* up2ptestTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = up2ptestTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		52A1778B19939C78000223F2 /* XCTest.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = XCTest.framework; path = Library/Frameworks/XCTest.framework; sourceTree = DEVELOPER_DIR; };
+		52A1779319939C78000223F2 /* up2ptestTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "up2ptestTests-Info.plist"; sourceTree = "<group>"; };
+		52A1779519939C78000223F2 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		52A1779719939C78000223F2 /* up2ptestTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = up2ptestTests.m; sourceTree = "<group>"; };
+		52A177D31993A08B000223F2 /* libup2p.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libup2p.a; path = up2ptest/libup2p.a; sourceTree = "<group>"; };
+		52A177D51993A7DE000223F2 /* up2pa.c */ = {isa = PBXFileReference; fileEncoding = 2147486000; lastKnownFileType = sourcecode.c.c; name = up2pa.c; path = ../../../up2pa.c; sourceTree = "<group>"; };
+		52A177D71993AF5C000223F2 /* up2p.h */ = {isa = PBXFileReference; fileEncoding = 2147486000; lastKnownFileType = sourcecode.c.h; name = up2p.h; path = ../../../up2p.h; sourceTree = "<group>"; };
+		52A177D81993AF5C000223F2 /* up2pa.h */ = {isa = PBXFileReference; fileEncoding = 2147486000; lastKnownFileType = sourcecode.c.h; name = up2pa.h; path = ../../../up2pa.h; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		52A1776319939C78000223F2 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				52A1776C19939C78000223F2 /* CoreGraphics.framework in Frameworks */,
+				52A1776E19939C78000223F2 /* UIKit.framework in Frameworks */,
+				52A1776A19939C78000223F2 /* Foundation.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		52A1778719939C78000223F2 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				52A1778C19939C78000223F2 /* XCTest.framework in Frameworks */,
+				52A1778E19939C78000223F2 /* UIKit.framework in Frameworks */,
+				52A1778D19939C78000223F2 /* Foundation.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		52A1775D19939C78000223F2 = {
+			isa = PBXGroup;
+			children = (
+				52A1776F19939C78000223F2 /* up2ptest */,
+				52A1779119939C78000223F2 /* up2ptestTests */,
+				52A1776819939C78000223F2 /* Frameworks */,
+				52A1776719939C78000223F2 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		52A1776719939C78000223F2 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				52A1776619939C78000223F2 /* up2ptest.app */,
+				52A1778A19939C78000223F2 /* up2ptestTests.xctest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		52A1776819939C78000223F2 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				52A177D31993A08B000223F2 /* libup2p.a */,
+				52A1776919939C78000223F2 /* Foundation.framework */,
+				52A1776B19939C78000223F2 /* CoreGraphics.framework */,
+				52A1776D19939C78000223F2 /* UIKit.framework */,
+				52A1778B19939C78000223F2 /* XCTest.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		52A1776F19939C78000223F2 /* up2ptest */ = {
+			isa = PBXGroup;
+			children = (
+				525E3AA919B4AC9D00B3EC04 /* aes.c */,
+				525E3AAA19B4AC9D00B3EC04 /* aes.h */,
+				525E3AAB19B4AC9D00B3EC04 /* ulink.c */,
+				525E3AAC19B4AC9D00B3EC04 /* ulink.h */,
+				525E3AAD19B4AC9D00B3EC04 /* up2p_crypt.c */,
+				525E3AAE19B4AC9D00B3EC04 /* up2p_crypt.h */,
+				525E3AA719B4AC6F00B3EC04 /* ulink_test.c */,
+				52A177D71993AF5C000223F2 /* up2p.h */,
+				52A177D81993AF5C000223F2 /* up2pa.h */,
+				52A177D51993A7DE000223F2 /* up2pa.c */,
+				52A1777819939C78000223F2 /* AppDelegate.h */,
+				52A1777919939C78000223F2 /* AppDelegate.m */,
+				52A1777B19939C78000223F2 /* Main_iPhone.storyboard */,
+				52A1777E19939C78000223F2 /* Main_iPad.storyboard */,
+				52A1778119939C78000223F2 /* ViewController.h */,
+				52A1778219939C78000223F2 /* ViewController.m */,
+				52A1778419939C78000223F2 /* Images.xcassets */,
+				52A1777019939C78000223F2 /* Supporting Files */,
+			);
+			path = up2ptest;
+			sourceTree = "<group>";
+		};
+		52A1777019939C78000223F2 /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				52A1777119939C78000223F2 /* up2ptest-Info.plist */,
+				52A1777219939C78000223F2 /* InfoPlist.strings */,
+				52A1777519939C78000223F2 /* main.m */,
+				52A1777719939C78000223F2 /* up2ptest-Prefix.pch */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		52A1779119939C78000223F2 /* up2ptestTests */ = {
+			isa = PBXGroup;
+			children = (
+				52A1779719939C78000223F2 /* up2ptestTests.m */,
+				52A1779219939C78000223F2 /* Supporting Files */,
+			);
+			path = up2ptestTests;
+			sourceTree = "<group>";
+		};
+		52A1779219939C78000223F2 /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				52A1779319939C78000223F2 /* up2ptestTests-Info.plist */,
+				52A1779419939C78000223F2 /* InfoPlist.strings */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		52A1776519939C78000223F2 /* up2ptest */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 52A1779B19939C79000223F2 /* Build configuration list for PBXNativeTarget "up2ptest" */;
+			buildPhases = (
+				52A1776219939C78000223F2 /* Sources */,
+				52A1776319939C78000223F2 /* Frameworks */,
+				52A1776419939C78000223F2 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = up2ptest;
+			productName = up2ptest;
+			productReference = 52A1776619939C78000223F2 /* up2ptest.app */;
+			productType = "com.apple.product-type.application";
+		};
+		52A1778919939C78000223F2 /* up2ptestTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 52A1779E19939C79000223F2 /* Build configuration list for PBXNativeTarget "up2ptestTests" */;
+			buildPhases = (
+				52A1778619939C78000223F2 /* Sources */,
+				52A1778719939C78000223F2 /* Frameworks */,
+				52A1778819939C78000223F2 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				52A1779019939C78000223F2 /* PBXTargetDependency */,
+			);
+			name = up2ptestTests;
+			productName = up2ptestTests;
+			productReference = 52A1778A19939C78000223F2 /* up2ptestTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		52A1775E19939C78000223F2 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastUpgradeCheck = 0500;
+				ORGANIZATIONNAME = vlinks;
+				TargetAttributes = {
+					52A1778919939C78000223F2 = {
+						TestTargetID = 52A1776519939C78000223F2;
+					};
+				};
+			};
+			buildConfigurationList = 52A1776119939C78000223F2 /* Build configuration list for PBXProject "up2ptest" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = 52A1775D19939C78000223F2;
+			productRefGroup = 52A1776719939C78000223F2 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				52A1776519939C78000223F2 /* up2ptest */,
+				52A1778919939C78000223F2 /* up2ptestTests */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		52A1776419939C78000223F2 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				52A1778019939C78000223F2 /* Main_iPad.storyboard in Resources */,
+				52A1778519939C78000223F2 /* Images.xcassets in Resources */,
+				52A1777D19939C78000223F2 /* Main_iPhone.storyboard in Resources */,
+				52A1777419939C78000223F2 /* InfoPlist.strings in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		52A1778819939C78000223F2 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				52A1779619939C78000223F2 /* InfoPlist.strings in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		52A1776219939C78000223F2 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				52A1778319939C78000223F2 /* ViewController.m in Sources */,
+				525E3AA819B4AC6F00B3EC04 /* ulink_test.c in Sources */,
+				525E3AB019B4AC9D00B3EC04 /* ulink.c in Sources */,
+				52A1777A19939C78000223F2 /* AppDelegate.m in Sources */,
+				525E3AAF19B4AC9D00B3EC04 /* aes.c in Sources */,
+				525E3AB119B4AC9D00B3EC04 /* up2p_crypt.c in Sources */,
+				52A177D61993A7DE000223F2 /* up2pa.c in Sources */,
+				52A1777619939C78000223F2 /* main.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		52A1778619939C78000223F2 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				52A1779819939C78000223F2 /* up2ptestTests.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		52A1779019939C78000223F2 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 52A1776519939C78000223F2 /* up2ptest */;
+			targetProxy = 52A1778F19939C78000223F2 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin PBXVariantGroup section */
+		52A1777219939C78000223F2 /* InfoPlist.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				52A1777319939C78000223F2 /* en */,
+			);
+			name = InfoPlist.strings;
+			sourceTree = "<group>";
+		};
+		52A1777B19939C78000223F2 /* Main_iPhone.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				52A1777C19939C78000223F2 /* Base */,
+			);
+			name = Main_iPhone.storyboard;
+			sourceTree = "<group>";
+		};
+		52A1777E19939C78000223F2 /* Main_iPad.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				52A1777F19939C78000223F2 /* Base */,
+			);
+			name = Main_iPad.storyboard;
+			sourceTree = "<group>";
+		};
+		52A1779419939C78000223F2 /* InfoPlist.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				52A1779519939C78000223F2 /* en */,
+			);
+			name = InfoPlist.strings;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		52A1779919939C79000223F2 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = "$(ARCHS_STANDARD_INCLUDING_64_BIT)";
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		52A1779A19939C79000223F2 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = "$(ARCHS_STANDARD_INCLUDING_64_BIT)";
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = YES;
+				ENABLE_NS_ASSERTIONS = NO;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		52A1779C19939C79000223F2 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "up2ptest/up2ptest-Prefix.pch";
+				INFOPLIST_FILE = "up2ptest/up2ptest-Info.plist";
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					/Users/test/Desktop/up2p/up2pa_ios/up2ptest/up2ptest,
+				);
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				WRAPPER_EXTENSION = app;
+			};
+			name = Debug;
+		};
+		52A1779D19939C79000223F2 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "up2ptest/up2ptest-Prefix.pch";
+				INFOPLIST_FILE = "up2ptest/up2ptest-Info.plist";
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					/Users/test/Desktop/up2p/up2pa_ios/up2ptest/up2ptest,
+				);
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				WRAPPER_EXTENSION = app;
+			};
+			name = Release;
+		};
+		52A1779F19939C79000223F2 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ARCHS = "$(ARCHS_STANDARD_INCLUDING_64_BIT)";
+				BUNDLE_LOADER = "$(BUILT_PRODUCTS_DIR)/up2ptest.app/up2ptest";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(SDKROOT)/Developer/Library/Frameworks",
+					"$(inherited)",
+					"$(DEVELOPER_FRAMEWORKS_DIR)",
+				);
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "up2ptest/up2ptest-Prefix.pch";
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				INFOPLIST_FILE = "up2ptestTests/up2ptestTests-Info.plist";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TEST_HOST = "$(BUNDLE_LOADER)";
+				WRAPPER_EXTENSION = xctest;
+			};
+			name = Debug;
+		};
+		52A177A019939C79000223F2 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ARCHS = "$(ARCHS_STANDARD_INCLUDING_64_BIT)";
+				BUNDLE_LOADER = "$(BUILT_PRODUCTS_DIR)/up2ptest.app/up2ptest";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(SDKROOT)/Developer/Library/Frameworks",
+					"$(inherited)",
+					"$(DEVELOPER_FRAMEWORKS_DIR)",
+				);
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "up2ptest/up2ptest-Prefix.pch";
+				INFOPLIST_FILE = "up2ptestTests/up2ptestTests-Info.plist";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TEST_HOST = "$(BUNDLE_LOADER)";
+				WRAPPER_EXTENSION = xctest;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		52A1776119939C78000223F2 /* Build configuration list for PBXProject "up2ptest" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				52A1779919939C79000223F2 /* Debug */,
+				52A1779A19939C79000223F2 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		52A1779B19939C79000223F2 /* Build configuration list for PBXNativeTarget "up2ptest" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				52A1779C19939C79000223F2 /* Debug */,
+				52A1779D19939C79000223F2 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		52A1779E19939C79000223F2 /* Build configuration list for PBXNativeTarget "up2ptestTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				52A1779F19939C79000223F2 /* Debug */,
+				52A177A019939C79000223F2 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 52A1775E19939C78000223F2 /* Project object */;
+}

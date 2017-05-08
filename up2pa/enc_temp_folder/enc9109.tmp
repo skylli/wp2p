@@ -1,0 +1,635 @@
+/*******************************************************************************
+
+    This file is part of the project.
+    Copyright wilddog.com
+    All right reserved.
+
+    File:    ulink_test.c
+
+    No description
+
+    TIME LIST:
+    CREATE  skyli   2014-09-01 20:08:23
+
+*******************************************************************************/
+#include <stdio.h>
+#include <stdlib.h>
+
+#include <string.h>
+#include "ulink.h"
+
+#ifdef __ANDROID__
+#include <android/log.h>
+#define LOG    "kenjni" // 这个是自定义的LOG的标识
+#define LOGI(...)  __android_log_print(ANDROID_LOG_INFO,LOG,__VA_ARGS__) // 定义LOGI类型
+#else
+#define LOGI debug_log
+#endif
+static char recvbuf[1024];
+static char sendbuf[1024];
+
+
+//获取文件的长度 大小
+static FILE *finput = NULL;
+static long filesize;			//文件的大小
+static u8 *filebuff = NULL;
+static long filecurr;			//当前文件位置
+
+long copybinfile(const char* filename )
+{
+	//long filesize =0;
+	long filelen = 0;
+	//读二进制方式打开
+	finput =  fopen(filename,"rb");
+	
+	if( finput == NULL)   
+		{
+		perror("vm101_sta.bin:");
+		return -1;
+		//exit(EXIT_FAILURE);		//有错直接退出
+	}
+    fseek( finput, 0L, SEEK_END );
+    filesize = ftell(finput);
+	printf("file :%s;size :%d\n",filename,filesize);
+	filebuff = (u8 *)malloc(filesize);
+	if(filebuff == NULL)
+	{
+		printf("malloc error !!\n");
+		goto closefile;
+	}
+	fseek( finput, 0, SEEK_SET );  //从文件头开始copy
+	filelen = fread(filebuff,1,filesize,finput);
+	if(filelen < filesize )
+		printf("read file len error filelen:%d;filesize:%d\n",filelen,filesize);
+	filecurr = 0;
+
+closefile:
+	if(fclose(finput) !=0 )
+		perror("fclose:");
+	return filelen;
+}
+
+//#define GPIOPWMI2C_SUP_
+#ifdef GPIOPWMI2C_SUP_
+
+//配置gpio	CMD_GPIO_INIT
+
+int ulink_gpio_init(ULINK *ulink,u8 pin,u8 mode)
+{
+	static u8 sendbuf[400];
+	static u8 recvbuf[400];
+	I2C_cust_ *pi2c = NULL;
+	UP2P_GPIO *pgpio_cust=NULL;
+	pwm_cust_ *pwmcust =NULL;
+	int ret =-1;
+	
+	if(pin >= epinMX)
+		return ret;
+	
+	pgpio_cust = (UP2P_GPIO *)&sendbuf[0];
+	pgpio_cust->pin = pin;//4;
+	pgpio_cust->mode = mode;//eGPIO_Input;
+	ulink_cmd_send(ulink, CMD_GPIO_INIT, sendbuf, sizeof(UP2P_GPIO)+1);
+	memset(recvbuf, 0, MAX_SERIAL_SIZE);
+	ret = ulink_cmd_wait(ulink, CMD_GPIO_INIT_ACK, recvbuf, MAX_SERIAL_SIZE);
+	LOGI("CMD_GPIO_INIT_ACK:: ret = %d \n", ret);
+    return ret;
+}
+
+
+int ulink_gpio_read(ULINK *ulink,u8 pin,u8 *value)
+{	
+	static u8 sendbuf[400];
+	static u8 recvbuf[400];
+	I2C_cust_ *pi2c = NULL;
+	UP2P_GPIO *pgpio_cust=NULL;
+	pwm_cust_ *pwmcust =NULL;
+	int ret =-1;
+
+	if(pin >= epinMX)
+		return ret;
+	//GPIO 
+	//读取gpio	0 口
+	pgpio_cust = (UP2P_GPIO *)&sendbuf[0];
+	pgpio_cust->pin = pin;
+	
+	pgpio_cust->mode = eGPIO_Input;
+	ulink_cmd_send(ulink, CMD_GPIO_READ, sendbuf, sizeof(UP2P_GPIO));
+	memset(recvbuf, 0, MAX_SERIAL_SIZE);
+	ret = ulink_cmd_wait(ulink, CMD_GPIO_READ_ACK, recvbuf, MAX_SERIAL_SIZE);
+	
+	pgpio_cust = (UP2P_GPIO *)&recvbuf[0];
+	LOGI("CMD_GPIO_READ_ACK:: ret = %d;pin=%2X ; mode= %2X ;  vlaue =%2X ", \
+					ret,pgpio_cust->pin,pgpio_cust->mode,pgpio_cust->value);
+	*value = pgpio_cust->value;
+	return (*value);
+
+}
+int ulink_gpio_write(ULINK *ulink,u8 pin,u8 value)
+{
+	static u8 sendbuf[400];
+	static u8 recvbuf[400];
+
+	I2C_cust_ *pi2c = NULL;
+	UP2P_GPIO *pgpio_cust=NULL;
+	pwm_cust_ *pwmcust =NULL;
+	int ret =-1;
+
+	if(pin >= epinMX)
+		return ret;
+	//GPIO 
+	//写gpio	0 口
+	pgpio_cust = (UP2P_GPIO *)&sendbuf[0];
+	pgpio_cust->pin = pin;
+	pgpio_cust->mode = eGPIO_Output;
+	pgpio_cust->value = value;//HIGHT_GPIO_LEV;
+	ulink_cmd_send(ulink, CMD_GPIO_WRITE, sendbuf, sizeof(UP2P_GPIO));
+	memset(recvbuf, 0, MAX_SERIAL_SIZE);
+	ret = ulink_cmd_wait(ulink, CMD_GPIO_WRITE_ACK, recvbuf, MAX_SERIAL_SIZE);
+	
+	LOGI("CMD_GPIO_WRITE_ACK :: ret = %d \n", ret);
+
+	return ret;
+}
+int ulink_gpio_pwmint(ULINK *ulink,u8 pin,u16 freq,u16 duty)
+{
+	static u8 sendbuf[400];
+	static u8 recvbuf[400];
+
+	I2C_cust_ *pi2c = NULL;
+	UP2P_GPIO *pgpio_cust=NULL;
+	pwm_cust_ *pwmcust =NULL;
+	int ret =-1;
+   
+	if(pin > epinMX)
+		return ret;
+	//GPIO 
+	//配置 pwm
+	pwmcust = (pwm_cust_ *)&sendbuf[0];
+	pwmcust->pin = pin;
+	pwmcust->freq = freq;
+	pwmcust->duty = duty;
+
+	ulink_cmd_send(ulink, CMD_PWM_INIT, sendbuf, sizeof(pwm_cust_));
+	memset(recvbuf, 0, MAX_SERIAL_SIZE);
+	ret = ulink_cmd_wait(ulink, CMD_PWM_INIT_ACK, recvbuf, MAX_SERIAL_SIZE);
+	
+	LOGI("CMD_PWM_INIT_ACK :: ret = %d \n", ret);
+
+	return ret;
+}
+//读取pin 口的pwm 配置参数
+int ulink_gpio_pwmread(ULINK *ulink,u8 pin)
+{
+	static u8 sendbuf[400];
+	static u8 recvbuf[400];
+	I2C_cust_ *pi2c = NULL;
+	UP2P_GPIO *pgpio_cust=NULL;
+	pwm_cust_ *pwmcust =NULL;
+	int ret =-1;
+   
+	if(pin > epinMX)
+		return ret;
+	//GPIO 
+	//配置 pwm
+	pwmcust = (pwm_cust_ *)sendbuf;
+	pwmcust->pin = pin;
+
+
+	ulink_cmd_send(ulink, CMD_PWM_READ, sendbuf, sizeof(pwm_cust_));
+	memset(recvbuf, 0, MAX_SERIAL_SIZE);
+	ret = ulink_cmd_wait(ulink, CMD_PWM_READ_ACK, recvbuf, sizeof(pwm_cust_));
+	
+	LOGI("CMD_PWM_INIT_ACK :: ret = %d \n", ret);
+	pwmcust = (pwm_cust_ *)&recvbuf[0];
+	LOGI("CMD_PWM_READ_ACK:: ret =%d pin=%d;freq=%d;duty=%d \n",\
+							ret,pwmcust->pin,pwmcust->freq,pwmcust->duty);
+
+	return ret;
+}
+//修改pin 口的pwm 配置
+int ulink_gpio_pwmchange(ULINK *ulink,u8 pin,u16 freq,u16 duty)
+{
+	static u8 sendbuf[400];
+	static u8 recvbuf[400];
+	I2C_cust_ *pi2c = NULL;
+	UP2P_GPIO *pgpio_cust=NULL;
+	pwm_cust_ *pwmcust =NULL;
+	int ret =-1;
+   
+	if(pin > epinMX)
+		return ret;
+	//GPIO 
+	//配置 pwm
+	pwmcust = (pwm_cust_ *)&sendbuf[0];
+
+	pwmcust->pin = pin;
+	pwmcust->freq = freq;
+	pwmcust->duty = duty;
+
+	ulink_cmd_send(ulink, CMD_PWM_WRITE, sendbuf, sizeof(pwm_cust_));
+	memset(recvbuf, 0, MAX_SERIAL_SIZE);
+	ret = ulink_cmd_wait(ulink, CMD_PWM_WRITE_ACK, recvbuf, MAX_SERIAL_SIZE);
+	LOGI("CMD_PWM_INIT_ACK :: ret = %d \n", ret);
+
+	return ret;
+}
+
+
+// i2c config 
+int ulink_gpio_I2cInt(ULINK *ulink,u8 pinclk,u8 pinsda,u8 speed)
+{
+	static u8 sendbuf[400];
+	static u8 recvbuf[400];
+	I2C_cust_ *pi2c = NULL;
+	UP2P_GPIO *pgpio_cust=NULL;
+	pwm_cust_ *pwmcust =NULL;
+	int ret =-1;
+   
+
+	//I2C
+	//i2c setting
+	pi2c = (I2C_cust_ *)&sendbuf[0];
+	pi2c->clk_pin = pinclk;
+	pi2c->sda_pin = pinsda;
+	pi2c->speed   = speed;
+	LOGI("CMD_I2C_INIT ::i2c scl pin=%d;sda pin =%d; speek =%d\n",\
+					pi2c->clk_pin,pi2c->sda_pin,pi2c->speed );
+
+	ret = ulink_cmd_send(ulink, CMD_I2C_INIT, sendbuf, sizeof(pwm_cust_));
+	memset(recvbuf, 0, MAX_SERIAL_SIZE);
+	ret = ulink_cmd_wait(ulink, CMD_I2C_INIT_ACK, recvbuf, MAX_SERIAL_SIZE);
+	LOGI("CMD_I2C_INIT_ACK :: ret = %d \n", ret);
+
+	return ret;
+}
+
+
+//read i2c
+//devaddress i2c 从设备地址
+//wdata 写入设备的数据(  一般为设备的地址和命令)  
+//wlen 写入数据的长度
+//rlen 读取的额数据长度
+//rdate  读取的数据缓存
+int ulink_gpio_I2cRead(ULINK *ulink,u8 devaddress,u8 *wdata,u8 wlen,u8 rlen,u8 *rdata)
+{
+	static u8 sendbuf[400];
+	//static u8 recvbuf[400];
+	I2C_cust_ *pi2c = NULL;
+	UP2P_GPIO *pgpio_cust=NULL;
+	pwm_cust_ *pwmcust =NULL;
+	int ret =-1;
+    int i;
+
+	
+	//I2C
+	//i2c read
+	pi2c = (I2C_cust_ *)&sendbuf[0];
+	pi2c->address = devaddress;
+    pi2c->r_len= rlen;
+  	pi2c->w_len= wlen;
+	memcpy(pi2c->date, wdata, wlen);
+	
+	ulink_cmd_send(ulink, CMD_I2C_READ, sendbuf, sizeof(pwm_cust_ )+wlen);
+	memset(recvbuf, 0, MAX_SERIAL_SIZE);
+	ret = ulink_cmd_wait(ulink, CMD_I2C_READ_ACK, rdata, MAX_SERIAL_SIZE);
+	printf("CMD_I2C_READ_ACK:: ret = %d buf =	", ret);
+	for(i=0;i<ret;i++)
+			printf("#%2X",rdata[i]);
+		printf("\n");
+
+	return ret;
+}
+//write to  i2c
+//devaddress i2c 从设备地址
+//wdata 写入设备的数据(  一般为设备的地址和命令)  
+//wlen 写入数据的长度
+int ulink_gpio_I2cwrite(ULINK *ulink,u8 devaddress,u8 *wdata,u8 wlen)
+{
+	static u8 sendbuf[400];
+	static u8 recvbuf[400];
+	I2C_cust_ *pi2c = NULL;
+	UP2P_GPIO *pgpio_cust=NULL;
+	pwm_cust_ *pwmcust =NULL;
+	int ret =-1;
+	//I2C
+	//i2c write
+	pi2c = (I2C_cust_ *)&sendbuf[0];
+	pi2c->address = devaddress;
+  	pi2c->w_len= wlen;
+	memcpy(pi2c->date, wdata, wlen);
+	
+	ulink_cmd_send(ulink, CMD_I2C_WRITE, sendbuf, sizeof(pwm_cust_ )+wlen);
+	memset(recvbuf, 0, MAX_SERIAL_SIZE);
+	ret = ulink_cmd_wait(ulink, CMD_I2C_WRITE_ACK, recvbuf, MAX_SERIAL_SIZE);
+	LOGI("CMD_I2C_WRITE_ACK:: ret = %d \n", ret);
+
+	return ret;
+}
+
+//CMD_I2C_TXRX i2c
+//devaddress i2c 从设备地址
+//wdata 写入设备的数据(  一般为设备的地址和命令)  
+//wlen 写入数据的长度
+//rlen 读取的额数据长度
+//rdate  读取的数据缓存
+int ulink_gpio_I2cRxTx(ULINK *ulink,u8 devaddress,u8 *wdata,u8 wlen,u8 rlen,u8 *rdata)
+{
+	static u8 sendbuf[400];
+	//static u8 recvbuf[400];
+	I2C_cust_ *pi2c = NULL;
+	UP2P_GPIO *pgpio_cust=NULL;
+	pwm_cust_ *pwmcust =NULL;
+	int ret =-1;
+    int i;
+
+	
+	//I2C
+	//i2c read
+	pi2c = (I2C_cust_ *)&sendbuf[0];
+	pi2c->address = devaddress;
+    pi2c->r_len= rlen;
+  	pi2c->w_len= wlen;
+	memcpy(pi2c->date, wdata, wlen);
+	
+	ulink_cmd_send(ulink, CMD_I2C_TXRX, sendbuf, sizeof(pwm_cust_ )+wlen);
+	memset(recvbuf, 0, MAX_SERIAL_SIZE);
+	ret = ulink_cmd_wait(ulink, CMD_I2C_TXRX_ACK, rdata, MAX_SERIAL_SIZE);
+	printf("CMD_I2C_TXRX_ACK:: ret = %d buf = :", ret);
+	for(i=0;i<ret;i++)
+		printf("#%2X",rdata[i]);
+	printf("\n");
+
+	return ret;
+}
+
+
+
+#endif 
+extern int up2pa_send_online(u32 dev0, u32 dev1);
+extern int up2pa_check_online(u32 dev0, u32 dev1);
+void ulink_check(void)
+{
+	ULINK *ulink;
+	char key[32];
+	int ret;
+	ulink_debug(0);
+	
+//	strcpy(key, "0000000000000000");
+	ulink_init("p2p.wilddog.cn", "0102030405060708");
+	while (1)
+	{
+//		ulink = ulink_open("1234567890123456", key);
+		up2pa_send_online(0,0);
+		delay_ms(1000);
+		ret = up2pa_check_online(0, 0);
+//		ulink_close(ulink);
+	}
+
+
+}
+void ulink_updata(const char *dev,const char *vm10x_file_name)
+{
+	ULINK *ulink;
+	char key[32];
+	int ret;
+
+	ulink_debug(0);
+	ulink_init("p2p.wilddog.cn", "0102030405060708");
+#if 1	
+	ret = ulink_config(dev, "my wifi", "12345678", ULINK_AUTH_WPA1PSKWPS2PSK, &key[0]);
+	if(ret != ULINK_ERR_NONE)
+	{
+		printf("ulink_config err = %d\n", ret);
+		goto _err;
+	}
+#else
+	strcpy(key, "0000000000000000");
+#endif
+	ulink = ulink_open(dev, key);
+	if(ulink == NULL)
+	{
+		printf("ulink_open faile\n");
+		delay_ms(1000);
+		goto _err;
+	}
+//	while (1)
+	{
+
+		//查询固件版本
+		ulink_cmd_send(ulink,CMD_WIFISDKVER_QURY, NULL,0);
+		memset(recvbuf, 0, MAX_SERIAL_SIZE);
+		ret = ulink_cmd_wait(ulink, CMD_WIFISDKVER_QURY_ACK, recvbuf, MAX_SERIAL_SIZE);
+		printf("CMD_WIFISDKVER_QURY_ACK ret = %d buf = %s\n", ret, recvbuf);
+		delay_ms(1000);
+		//固件载入内存
+		ret = copybinfile(vm10x_file_name);
+		if(ret > 0 )
+		{
+			ulink_update_vm10x(ulink,(char*)&filebuff[0],filesize);			
+		}
+	}
+_err:
+	ulink_deinit();
+}
+
+void ulink_test(const char *dev)
+{
+	int ret;
+	ULINK *ulink;
+	char outkey[32];
+
+	ulink_debug(10);
+
+	ulink_init("p2p.wilddog.cn", "0102030405060708");
+												   
+	ret = ulink_config(dev, "my wifi", "12345678", ULINK_AUTH_WPA1PSKWPS2PSK, &outkey);
+	if(ret != ULINK_ERR_NONE)
+	{
+		printf("ulink_config err = %d\n", ret);
+		goto _err;
+	}
+
+	ulink = ulink_open(dev, outkey);
+
+	if(ulink == NULL)
+	{
+		printf("ulink_open faile\n");
+		delay_ms(1000);
+		goto _err;
+	}
+
+	ulink_border_begin();
+
+	// 在线检查
+	ulink_send_online(ulink);
+	delay_ms(500);
+	ret = ulink_check_online(ulink);
+	printf("online ret = %d\n", ret);
+	delay_ms(500);
+
+
+	while(1)
+	{
+#if 1
+		// 发送串口命令，并读取串口数据
+		strcpy(sendbuf, "G");
+		ulink_cmd_send(ulink, CMD_TXRX_SERIAL, sendbuf, strlen(sendbuf));
+		ret = ulink_cmd_wait(ulink, CMD_TXRX_SERIAL_ACK, recvbuf, MAX_SERIAL_SIZE);
+		if (ret >= 0)
+		{
+//			if (recvbuf[2] != 'V')
+			{
+ 				printf("CMD_TXRX_SERIAL_ACK ret = %d buf = %s\n", ret, recvbuf);
+			}
+		}
+		else
+		{
+            printf("CMD_TXRX_SERIAL_ACK error\n");
+		}
+
+		// 收发一体测试
+		strcpy(sendbuf, "#RM00z");
+		ulink_cmd_send(ulink, CMD_TXRX_SERIAL, sendbuf, strlen(sendbuf));
+		ret = ulink_cmd_wait(ulink, CMD_TXRX_SERIAL_ACK, recvbuf, MAX_SERIAL_SIZE);
+		if (ret >= 0)
+		{
+			if (recvbuf[2] != 'M')
+			{
+				printf("CMD_TXRX_SERIAL_ACK ret = %d buf = %s\n", ret, recvbuf);
+			}
+		}
+		else
+		{
+            printf("CMD_TXRX_SERIAL_ACK error\n");
+		}
+		// 收发一体测试
+		strcpy(sendbuf, "#RD00z");
+		ulink_cmd_send(ulink, CMD_TXRX_SERIAL, sendbuf, strlen(sendbuf));
+		ret = ulink_cmd_wait(ulink, CMD_TXRX_SERIAL_ACK, recvbuf, MAX_SERIAL_SIZE);
+		if (ret >= 0)
+		{
+			if (recvbuf[2] != 'D')
+			{
+				printf("CMD_TXRX_SERIAL_ACK ret = %d buf = %s\n", ret, recvbuf);
+			}
+		}
+		else
+		{
+            printf("CMD_TXRX_SERIAL_ACK error\n");
+		}
+		// 收发一体测试
+		strcpy(sendbuf, "#RL00z");
+		ulink_cmd_send(ulink, CMD_TXRX_SERIAL, sendbuf, strlen(sendbuf));
+		ret = ulink_cmd_wait(ulink, CMD_TXRX_SERIAL_ACK, recvbuf, MAX_SERIAL_SIZE);
+		if (ret >= 0)
+		{
+			if (recvbuf[2] != 'L')
+			{
+				printf("CMD_TXRX_SERIAL_ACK ret = %d buf = %s\n", ret, recvbuf);
+			}
+		}
+		else
+		{
+            printf("CMD_TXRX_SERIAL_ACK error\n");
+		}
+		// 收发一体测试
+		strcpy(sendbuf, "#RP00z");
+		ulink_cmd_send(ulink, CMD_TXRX_SERIAL, sendbuf, strlen(sendbuf));
+		ret = ulink_cmd_wait(ulink, CMD_TXRX_SERIAL_ACK, recvbuf, MAX_SERIAL_SIZE);
+		if (ret >= 0)
+		{
+			if (recvbuf[2] != 'P')
+			{
+				printf("CMD_TXRX_SERIAL_ACK ret = %d buf = %s\n", ret, recvbuf);
+			}
+		}
+		else
+		{
+            printf("CMD_TXRX_SERIAL_ACK error\n");
+		}
+		// 收发一体测试
+		strcpy(sendbuf, "#RT00z");
+		ulink_cmd_send(ulink, CMD_TXRX_SERIAL, sendbuf, strlen(sendbuf));
+		ret = ulink_cmd_wait(ulink, CMD_TXRX_SERIAL_ACK, recvbuf, MAX_SERIAL_SIZE);
+		if (ret >= 0)
+		{
+			if (recvbuf[2] != 'T')
+			{
+				printf("CMD_TXRX_SERIAL_ACK ret = %d buf = %s\n", ret, recvbuf);
+			}
+		}
+		else
+		{
+            printf("CMD_TXRX_SERIAL_ACK error\n");
+		}
+#endif
+
+#if 0
+		//查询固件版本
+		ulink_cmd_send(ulink,CMD_WIFISDKVER_QURY, NULL,0);
+		memset(recvbuf, 0, MAX_SERIAL_SIZE);
+		ret = ulink_cmd_wait(ulink, CMD_WIFISDKVER_QURY_ACK, recvbuf, MAX_SERIAL_SIZE);
+		printf("CMD_WIFISDKVER_QURY_ACK ret = %d buf = %s\n", ret, recvbuf);
+
+
+		//固件载入内存
+		ret = copybinfile("MT7681_sta_header.bin");
+		if(ret > 0 )
+			{
+			ulink_update_vm10x(ulink,filebuff,ret,recvbuf[0]);
+			ulink_border_end();
+		}
+#endif
+
+#ifdef GPIOPWMI2C_SUP_
+#if 1
+	//gpio test
+	{
+		u8 value[10];
+		ulink_gpio_init(ulink,2,GPIO_OUTPUT);
+		delay_ms(3000);
+ 		ulink_gpio_read(ulink,2,value);
+		delay_ms(3000);
+ 		ulink_gpio_write(ulink,3,0);
+		delay_ms(3000);
+	}
+#endif
+	//pwm test
+	{
+		
+		ulink_gpio_pwmint(ulink,4,100,50);
+		ulink_gpio_pwmread(ulink,4);
+		ulink_gpio_pwmchange(ulink,4,1000,10);
+		ulink_gpio_pwmread(ulink,4);
+	}
+
+	//i2c  test
+	{
+		
+		u8 wdate[256]; 
+		u8 rdate[256];
+		
+		ulink_gpio_I2cInt(ulink,0,1,10);
+		wdate[0] = 0x02; //write address
+		wdate[1] = 0x01;
+		wdate[2] = 0x02;
+		wdate[3] = 0x03;
+		ulink_gpio_I2cwrite(ulink,0x50,wdate,3);
+		
+		wdate[0] = 0x55; //read address
+		wdate[0] = 0xaa; //read address
+		ulink_gpio_I2cwrite(ulink,0x50,wdate,1);
+		ulink_gpio_I2cRead(ulink,0x50,wdate,0,3,rdate);
+		wdate[0] = 0x02;//write address
+		ulink_gpio_I2cRxTx(ulink,0x50,wdate,5,3,rdate);
+		wdate[0]=0;
+	}
+#endif
+
+	}
+		ulink_border_end();
+		ulink_close(ulink);
+_err:
+	ulink_deinit();
+}
